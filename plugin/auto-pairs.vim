@@ -390,6 +390,12 @@ function! AutoPairsReturn()
   let cmd = ''
   let cur_char = line[col('.')-1]
   if has_key(b:AutoPairs, prev_char) && b:AutoPairs[prev_char] == cur_char
+    " check validity of the return inserted
+    let trimedline = substitute(line, '\s\+', '', 'g')
+    if len(trimedline) > 1
+      return ''
+    end
+
     if g:AutoPairsCenterLine && winline() * 3 >= winheight(0) * 2
       " Recenter before adding new line to avoid replacing line content
       let cmd = "zz"
